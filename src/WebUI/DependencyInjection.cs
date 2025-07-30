@@ -17,7 +17,7 @@ public static class DependencyInjection
         services.AddHttpClient(httpClientName,
             client =>
             {
-                client.BaseAddress = new Uri("https://catfact.ninja/");
+                client.BaseAddress = new Uri("https://catfact.ninja/fact");
             });
 
         services.AddScoped<ICatFactService, CatFactService>();
