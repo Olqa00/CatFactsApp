@@ -23,6 +23,8 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+app.UseWebApi();
+
 app.MapControllerRoute(
         "default",
         "{controller=Home}/{action=Index}/{id?}")

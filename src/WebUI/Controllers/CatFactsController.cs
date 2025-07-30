@@ -6,10 +6,12 @@ using CatFactsApp.WebUI.Interfaces;
 public class CatFactsController : Controller
 {
     private readonly ICatFactService catFactService;
+    private readonly IFileService fileService;
 
-    public CatFactsController(ICatFactService catFactService)
+    public CatFactsController(ICatFactService catFactService, IFileService fileService)
     {
         this.catFactService = catFactService;
+        this.fileService = fileService;
     }
 
     [HttpGet, Route("RandomCatFact")]
@@ -21,6 +23,10 @@ public class CatFactsController : Controller
         {
             return this.NotFound();
         }
+
+        var content = catFact.Fact + " " + catFact.Length;
+
+        await this.fileService.AppendToFileAsync(content, cancellationToken);
 
         return this.Ok(catFact);
     }
