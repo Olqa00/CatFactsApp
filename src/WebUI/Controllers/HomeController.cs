@@ -1,31 +1,30 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using CatFactsApp.WebUI.Models;
-
 namespace CatFactsApp.WebUI.Controllers;
+
+using System.Diagnostics;
+using CatFactsApp.WebUI.Models;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<HomeController> logger;
 
     public HomeController(ILogger<HomeController> logger)
     {
-        _logger = logger;
-    }
-
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
+        this.logger = logger;
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+    }
+
+    public IActionResult Index()
+    {
+        return this.View();
+    }
+
+    public IActionResult Privacy()
+    {
+        return this.View();
     }
 }

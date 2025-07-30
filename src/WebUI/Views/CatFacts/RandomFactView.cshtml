@@ -1,0 +1,45 @@
+﻿@model CatFactsApp.WebUI.Models.CatFact
+
+@{
+    ViewData["Title"] = "Random Cat Fact";
+}
+
+<body>
+<div>
+    <h1>Random Cat Fact</h1>
+
+    <div>
+        <button id="getFactBtn">Get Random Cat Fact</button>
+    </div>
+
+    <div id="factContainer" style="display:none;">
+        <p id="factText"/>
+        <p id="factLength"/>
+    </div>
+
+    <div id="errorContainer" class="alert alert-danger mt-3" style="display: none;" />
+</div>
+
+<script>
+            document.getElementById("getFactBtn").addEventListener("click", async function() {
+            fetch('CatFacts/RandomCatFact')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById("factText").textContent = data.fact;
+                        document.getElementById("factLength").textContent = `Length: ${data.length}`;
+                        document.getElementById("factContainer").style.display = "block";
+                        document.getElementById("errorContainer").style.display = "none";
+                    })
+                    .catch(error => {
+                        document.getElementById("errorContainer").textContent = 'Error fetching cat fact: ' + error.message;
+                        document.getElementById("errorContainer").style.display = "block";
+                        document.getElementById("factContainer").style.display = "none";
+                    });
+            });
+    </script>
+</body>
