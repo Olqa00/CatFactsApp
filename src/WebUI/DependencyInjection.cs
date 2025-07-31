@@ -5,6 +5,7 @@ using CatFactsApp.WebUI.Services;
 
 public static class DependencyInjection
 {
+    private const string ADDRESS = "WebAddress";
     private const string CLIENT_NAME = "ClientName";
 
     public static IServiceCollection AddWebApi(this IServiceCollection services, IConfiguration configuration)
@@ -15,11 +16,12 @@ public static class DependencyInjection
         services.AddScoped<IFileService, FileService>();
 
         var httpClientName = configuration[CLIENT_NAME] ?? "";
+        var webAddress = configuration[ADDRESS] ?? "";
 
         services.AddHttpClient(httpClientName,
             client =>
             {
-                client.BaseAddress = new Uri("https://catfact.ninja/fact");
+                client.BaseAddress = new Uri(webAddress);
             });
 
         services.AddSingleton<FileSettings>();
