@@ -2,8 +2,6 @@ using CatFactsApp.WebUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddWebApi(builder.Configuration);
 
 var app = builder.Build();
