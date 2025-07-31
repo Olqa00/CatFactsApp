@@ -9,8 +9,7 @@ public static class DependencyInjection
 
     public static IServiceCollection AddWebApi(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddControllers();
-        services.AddEndpointsApiExplorer();
+        services.AddControllersWithViews();
 
         services.AddScoped<ICatFactService, CatFactService>();
         services.AddScoped<IFileService, FileService>();
