@@ -12,6 +12,9 @@ public static class DependencyInjection
         services.AddControllers();
         services.AddEndpointsApiExplorer();
 
+        services.AddScoped<ICatFactService, CatFactService>();
+        services.AddScoped<IFileService, FileService>();
+
         var httpClientName = configuration[CLIENT_NAME] ?? "";
 
         services.AddHttpClient(httpClientName,
@@ -20,28 +23,9 @@ public static class DependencyInjection
                 client.BaseAddress = new Uri("https://catfact.ninja/fact");
             });
 
-        services.AddScoped<ICatFactService, CatFactService>();
-        services.AddScoped<IFileService, FileService>();
+        services.AddSingleton<FileSettings>();
+        services.AddHostedService<FileHostedService>();
 
         return services;
-    }
-
-    public static IApplicationBuilder UseWebApi(this IApplicationBuilder app)
-    {
-        using var scope = app.ApplicationServices.CreateScope();
-        var fileService = scope.ServiceProvider.GetRequiredService<IFileService>();
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-        try
-        {
-            fileService.ClearFileAsync().GetAwaiter().GetResult();
-            logger.LogInformation("File cleaned successfully on startup");
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred while cleaning the file");
-        }
-
-        return app;
     }
 }

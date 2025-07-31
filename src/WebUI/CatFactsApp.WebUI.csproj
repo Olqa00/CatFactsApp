@@ -10,8 +10,4 @@
     <Using Include="Microsoft.AspNetCore.Mvc" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-
 </Project>
