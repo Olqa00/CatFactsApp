@@ -5,30 +5,24 @@ using CatFactsApp.WebUI.Interfaces;
 [Route("[controller]")]
 public class CatFactsController : Controller
 {
-    private readonly ICatFactService catFactService;
-    private readonly IFileService fileService;
+    private readonly ICatFactProcessingService catFactProcessingService;
 
-    public CatFactsController(ICatFactService catFactService, IFileService fileService)
+    public CatFactsController(ICatFactProcessingService catFactProcessingService)
     {
-        this.catFactService = catFactService;
-        this.fileService = fileService;
+        this.catFactProcessingService = catFactProcessingService;
     }
 
     [HttpGet, Route("RandomCatFact")]
     public async Task<IActionResult> GetRandomCatFactAsync(CancellationToken cancellationToken = default)
     {
-        var catFact = await this.catFactService.GetRandomCatFactAsync(cancellationToken);
+        var fact = await this.catFactProcessingService.ProcessNewFactAsync(cancellationToken);
 
-        if (catFact is null)
+        if (fact is null)
         {
             return this.NotFound();
         }
 
-        var content = catFact.Fact + " " + catFact.Length;
-
-        await this.fileService.AppendToFileAsync(content, cancellationToken);
-
-        return this.Ok(catFact);
+        return this.Ok(fact);
     }
 
     [HttpGet]

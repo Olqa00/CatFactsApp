@@ -14,6 +14,7 @@ public static class DependencyInjection
 
         services.AddScoped<ICatFactService, CatFactService>();
         services.AddScoped<IFileService, FileService>();
+        services.AddScoped<ICatFactProcessingService, CatFactProcessingService>();
 
         var httpClientName = configuration[CLIENT_NAME] ?? "";
         var webAddress = configuration[ADDRESS] ?? "";
